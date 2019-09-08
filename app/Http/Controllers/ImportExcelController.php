@@ -47,7 +47,7 @@ class ImportExcelController extends Controller
                 }
             }elseif( empty($value[0]) || empty($value[1]) || empty($value[2]) || empty($value[4]) || empty($value[11]) ){
                 $rejected_data[] = [
-                    "nombre" => "FILA ".($key+2)." :Rechazado por falta de datos principales (nombre, apellido paterno, empresa, sexo y/o estado civil. ",
+                    "nombre" => ($key+2)."# FILA ".($key+2)." :Rechazado por falta de datos principales (nombre, apellido paterno, empresa, sexo y/o estado civil. ",
                 ];
             }else{
                 foreach($insert_data as $i => $insert) {

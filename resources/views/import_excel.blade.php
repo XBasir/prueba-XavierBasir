@@ -185,6 +185,7 @@
                          }
                 } );
                 $('#rechazados').DataTable( {
+                        "ordering": false,
                         "scrollX": true,
                         "language": {
                         "info": "_TOTAL_ registros",
