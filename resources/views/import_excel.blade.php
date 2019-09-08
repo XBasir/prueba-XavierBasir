@@ -54,7 +54,7 @@
    
    <br />
    <h2>Empleados importados del último excel</h2>
-   <table id="empleados" class="table table-striped table-bordered" style="width:100%">
+   <table id="empleados" class="table table-striped table-bordered" style="width:100%; white-space:nowrap;" >
         <thead>
             <tr>
                 <th>Nombre</th>
@@ -80,8 +80,8 @@
         <tbody>
         @foreach($data as $row)
         <tr>
-                <td>{{ $row->nombres }}</td>
-                <td>{{ $row->apellido_paterno_ }}</td>
+                <td class="bg-warning">{{ $row->nombres }}</td>
+                <td class="bg-warning">{{ $row->apellido_paterno_ }}</td>
                 <td>{{ $row->apellido_materno }}</td>
                 <td>{{ $row->clave_del_ife }}</td>
                 <td>{{ $row->clave_de_elector }}</td>
@@ -126,7 +126,7 @@
     </table>
     <br><br>
     <h2>Filas rechazadas del último excel</h2>
-    <table id="rechazados" class="table table-striped table-bordered" style="width:80%; margin: auto;">
+    <table id="rechazados" class="table table-striped table-bordered" style="width:80%; margin: auto; white-space:nowrap;">
         <thead>
             <tr>
                 <th>Descripcion</th>
@@ -135,7 +135,7 @@
         <tbody>
         @foreach($rejected_data as $row)
         <tr>
-                <td>{{ $row->nombre}}</td>
+                <td  class="bg-danger text-white">{{ $row->nombre}}</td>
         </tr>
         @endforeach
         </tbody>
