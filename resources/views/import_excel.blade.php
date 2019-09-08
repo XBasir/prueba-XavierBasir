@@ -5,11 +5,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  </head>
  <body>
   
-  <div class="container-fluid">
+  <div class="container">
         <h2 align="center">Importar datos de excel en Laravel</h2>
         <h3 align="center" >Prueba hecha por <a href="http://xbasir.github.io/cv-portafolio/" target="_blank">Xavier Basir</a> </h3>
         <br />
