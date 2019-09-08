@@ -101,35 +101,13 @@
         </tr>
         @endforeach
         </tbody>
-        <tfoot>
-            <tr>
-                <th>Nombre</th>
-                <th>Apellido 1</th>
-                <th>Apellido 2</th>
-                <th>IFE</th>
-                <th>Clave elector</th>
-                <th>RFC</th>
-                <th>Tel</th>
-                <th>CURP</th>
-                <th>IMSS</th>
-                <th>Fecha contrato</th>
-                <th>Fecha Nacimiento</th>
-                <th>ID Empresa</th>
-                <th>ID Sexo</th>
-                <th>ID Estado Civil</th>
-                <th>Entidad </th>
-                <th>Municipio</th>
-                <th>Colonia</th>
-                <th>Nacionalidad</th>
-            </tr>
-        </tfoot>
     </table>
     <br><br>
     <h2>Filas rechazadas del último excel</h2>
     <table id="rechazados" class="table table-striped table-bordered" style="width:80%; margin: auto; white-space:nowrap;">
         <thead>
             <tr>
-                <th>Descripcion</th>
+                <th>Descripcion de Rechazo</th>
             </tr>
         </thead>
         <tbody>
@@ -139,11 +117,6 @@
         </tr>
         @endforeach
         </tbody>
-        <tfoot>
-            <tr>
-                <th>Descripcion</th>
-            </tr>
-        </tfoot>
     </table>
 
   </div>
