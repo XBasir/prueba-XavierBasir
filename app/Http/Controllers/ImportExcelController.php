@@ -45,9 +45,29 @@ class ImportExcelController extends Controller
                 foreach($value as $i => $row) {
                     $insert_data = array_map('strtolower', $value);
                 }
-            }elseif( empty($value[0]) || empty($value[1]) || empty($value[2]) || empty($value[4]) || empty($value[11]) ){
+            }elseif( empty($value[0]) && empty($value[1]) && empty($value[2]) && empty($value[4]) && empty($value[10]) ){
                 $rejected_data[] = [
-                    "nombre" => ($key+2)."# FILA ".($key+2)." :Rechazado por falta de datos principales (nombre, apellido paterno, empresa, sexo y/o estado civil. ",
+                    "nombre" => ($key+2)."# FILA ".($key+2)." :Rechazado por falta de datos principales",
+                ];
+            }elseif(empty($value[1]) ){
+                $rejected_data[] = [
+                    "nombre" => ($key+2)."# FILA ".($key+2)." :Rechazado por falta de dato principal (nombre)",
+                ];
+            }elseif(empty($value[2])){
+                $rejected_data[] = [
+                    "nombre" => ($key+2)."# FILA ".($key+2)." :Rechazado por falta de dato principal (apellido paterno)",
+                ];
+            }elseif(empty($value[4])){
+                $rejected_data[] = [
+                    "nombre" => ($key+2)."# FILA ".($key+2)." :Rechazado por falta de dato principal (sexo)",
+                ];
+            }elseif(empty($value[10])){
+                $rejected_data[] = [
+                    "nombre" => ($key+2)."# FILA ".($key+2)." :Rechazado por falta de dato principal (estado civil)",
+                ];
+            }elseif(empty($value[0])){
+                $rejected_data[] = [
+                    "nombre" => ($key+2)."# FILA ".($key+2)." :Rechazado por falta de dato principal (empresa)",
                 ];
             }else{
                 foreach($insert_data as $i => $insert) {
