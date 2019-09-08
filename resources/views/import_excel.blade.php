@@ -5,53 +5,71 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    body{
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    header{
+        background-color: #353839;
+    }
+
+    footer{
+        background-color: #353839;
+        height: 120px;
+    }
+  </style>
  </head>
  <body>
-  
-  <div class="container">
-        <h2 align="center">Importar datos de excel en Laravel</h2>
-        <h3 align="center" >Prueba hecha por <a href="http://xbasir.github.io/cv-portafolio/" target="_blank">Xavier Basir</a> </h3>
-        <br />
-   @if(count($errors) > 0)
-    <div class="alert alert-danger">
-     UPS! Hubo un error :(<br><br>
-     <ul>
-      @foreach($errors->all() as $error)
-      <li>{{ $error }}</li>
-      @endforeach
-     </ul>
-    </div>
-   @endif
+    <header class="text-white py-4">
+        <h2 align="center" class="text-uppercase">Importar datos de excel en Laravel</h2>
+            <h3 align="center" >Prueba hecha por <a href="http://xbasir.github.io/cv-portafolio/" target="_blank" class="text-warning">Xavier Basir</a> </h3>
+            <br />
+    @if(count($errors) > 0)
+        <div class="alert alert-danger">
+        UPS! Hubo un error :(<br><br>
+        <ul>
+        @foreach($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+        </ul>
+        </div>
+    @endif
 
-   @if($message = Session::get('success'))
-   <div class="alert alert-success alert-block">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-           <strong>{{ $message }}</strong>
-   </div>
-   @endif
-   <form method="post" enctype="multipart/form-data" action="{{ url('/import') }}">
-    {{ csrf_field() }}
-    <div class="form-group">
-     <table class="table" >
-      <tr>
-       <td width="40%" align="right"><label class="mt-2">Seleccionar Archivo <span class="text-muted">formatos .xls, xslx)</span></td>
-       <td width="30">
-        <input type="file" name="select_file" />
-       </td>
-       <td width="30%" align="left">
-        <input type="submit" name="Subir" class="btn btn-success" value="Importar" style="margin-top: -4px !important;">
-       </td>
-      </tr>
-      <tr>
-       <td width="40%" align="right"></td>
-       <td width="30"></td>
-       <td width="30%" align="left"></td>
-      </tr>
-     </table>
+    @if($message = Session::get('success'))
+    <div class="alert alert-success alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>{{ $message }}</strong>
     </div>
-   </form>
+    @endif
+    
+        <form method="post" enctype="multipart/form-data" action="{{ url('/import') }}">
+        {{ csrf_field() }}
+        <div class="form-group">
+        <table class="table" >
+        <tr>
+        <td width="40%" align="right"><label class="mt-1">Seleccionar Archivo <span class="text-warning">formatos .xls, xslx</span></td>
+        <td width="30">
+            <input type="file" name="select_file" />
+        </td>
+        <td width="30%" align="left">
+            <input type="submit" name="Subir" class="btn btn-success" value="Importar" style="margin-top: -4px !important;">
+        </td>
+        </tr>
+        <tr>
+        <td width="40%" align="right"></td>
+        <td width="30"></td>
+        <td width="30%" align="left"></td>
+        </tr>
+        </table>
+        </div>
+    </form>
+	</header>
+
    
    <br />
+   <div class="container">
    <h2>Empleados importados del último excel</h2>
    <table id="empleados" class="table table-striped table-bordered" style="width:100%; white-space:nowrap;" >
         <thead>
@@ -103,7 +121,7 @@
     </table>
     <br><br>
     <h2>Filas rechazadas del último excel</h2>
-    <table id="rechazados" class="table table-striped table-bordered" style="width:80%; margin: auto; white-space:nowrap;">
+    <table id="rechazados" class="table table-striped table-bordered" style="width:100%; margin: auto; white-space:nowrap;">
         <thead>
             <tr>
                 <th>Descripcion de Rechazo</th>
@@ -119,6 +137,10 @@
     </table>
 
   </div>
+  <footer class="mt-5 mb-0 pb-0">
+    <h4 align="center" class="text-warning pt-5"><a href="http://xbasir.github.io/cv-portafolio/" target="_blank" class="text-warning text-uppercase">Conoce más de mi aquí!</a></h4>
+    
+  </footer>
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
