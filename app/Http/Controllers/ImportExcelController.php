@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use DB;
 use Excel;
+use App\Empleado;
 use App\Empresa;
 use App\EstadoCivil;
 use App\Sexo;
@@ -15,9 +16,12 @@ class ImportExcelController extends Controller
 {
     function index()
     {
-     $data = DB::table('empleados')->orderBy('id', 'DESC')->get();
+     $data =  Empleado::all();
+     $empresa =  Empresa::all();
+     $sexo =  Sexo::all();
+     $estado_civil =  EstadoCivil::all();
      $rejected_data = DB::table('rejected')->orderBy('id', 'DESC')->get();
-     return view('import_excel', compact('data', 'rejected_data'));
+     return view('import_excel', compact('data', 'rejected_data', 'empresa', 'sexo', 'estado_civil'));
     }
 
     function import(Request $request)
@@ -65,7 +69,7 @@ class ImportExcelController extends Controller
                         if( !empty($estado)){ 
                             $value[$i] = $estado->id;
                         }
-                        if($value[$i] = "UNION LIBRE"){
+                        if($value[$i] == "UNION  LIBRE"){
                             $value[$i] = 2;
                         }
                     }

@@ -3,10 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Empresa;
 
 class Empleado extends Model
 {
     protected $table = 'empleados';
+    protected $primaryKey = 'id'; 
     protected $fillable = [
         'nombres',
         'apellido_paterno_',

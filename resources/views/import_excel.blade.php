@@ -108,9 +108,25 @@
                 <td>{{ $row->afiliacion_a_imss}}</td>
                 <td>{{ $row->fecha_de_contrato}}</td>
                 <td>{{ $row->fecha_de_nacimiento}}</td>
-                <td class="bg-warning">{{ $row->empresa }}</td>
-                <td class="bg-warning">{{ $row->sexo }}</td>
-                <td class="bg-warning">{{ $row->estado_civil }}</td>
+                <td class="bg-warning">({{ $row->empresa }})
+                @foreach($empresa as $e)
+                    @if($row->empresa == $e->id)
+                        {{$e->nombre}}
+                    @endif
+                @endforeach
+                </td>
+                <td class="bg-warning">({{ $row->sexo }})
+                @foreach($sexo as $s)
+                    @if($row->sexo == $s->id)
+                        {{$s->nombre}}
+                    @endif
+                @endforeach</td>
+                <td class="bg-warning">({{ $row->estado_civil }}) 
+                @foreach($estado_civil as $e)
+                    @if($row->estado_civil == $e->id)
+                        {{$e->nombre}}
+                    @endif
+                @endforeach</td>
                 <td>{{ $row->entidad_de_nacimiento }}</td>
                 <td>{{ $row->municipio_de_nacimiento }}</td>
                 <td>{{ $row->colonia_de_nacimiento_ }}</td>
