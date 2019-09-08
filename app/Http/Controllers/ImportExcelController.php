@@ -76,11 +76,17 @@ class ImportExcelController extends Controller
                         $empresa = Empresa::where('nombre', $value[$i])->first();
                         if( !empty($empresa)){ 
                             $value[$i] = $empresa->id;
+                        }else{
+                            $empresa = Empresa::where('nombre', 'OTRA')->first();
+                            $value[$i] = $empresa->id;
                         }
                    }
                    if($insert_data[$i] == "sexo"){
                         $sexo = Sexo::where('nombre', $value[$i])->first();
                         if( !empty($sexo)){ 
+                            $value[$i] = $sexo->id;
+                        }else{
+                            $sexo = Sexo::where('nombre', 'OTRO')->first();
                             $value[$i] = $sexo->id;
                         }
                     }
@@ -88,10 +94,11 @@ class ImportExcelController extends Controller
                         $estado = EstadoCivil::where('nombre', $value[$i])->first();
                         if( !empty($estado)){ 
                             $value[$i] = $estado->id;
+                        }else{
+                            $estado = EstadoCivil::where('nombre', 'OTRO')->first();
+                            $value[$i] = $estado->id;
                         }
-                        if($value[$i] == "UNION  LIBRE"){
-                            $value[$i] = 2;
-                        }
+                        
                     }
                 };
             $final_data[] = [
@@ -120,8 +127,8 @@ class ImportExcelController extends Controller
       if(!empty($final_data))
       {
          DB::table('empleados')->whereNotNull('id')->delete();
-         DB::table('empleados')->insert($final_data);
          DB::table('rejected')->whereNotNull('id')->delete();
+         DB::table('empleados')->insert($final_data);
          DB::table('rejected')->insert($rejected_data);
       }
      }
