@@ -32,108 +32,156 @@ class ImportExcelController extends Controller
 
      $path = $request->file('select_file')->getRealPath();
 
+     //El skip(1) es para saltarse la primera fila para tomar como heading la segunda
      $data = Excel::load($path)->noHeading()->skip(1)->get();
-  
-     if($data->count() > 0)
+
+     $schemas = DB::getSchemaBuilder()->getColumnListing('empleados');
+     array_shift($schemas);
+
+     $data = $data->toArray();
+
+     if(count($data) > 0)
      {
         $insert_data = array();
         $rejected_data = array();
         $final_data = array();
-        foreach($data->toArray() as $key => $value)
+        $empleado_data = array();
+        $values = array();
+        $specific_value = array();
+        $values_position = array();
+        
+
+        $empresa_position = null;
+        $nombres_position = null;
+        $apellido_paterno_position = null;
+        $sexo_position = null;
+        $estado_civil_position = null;
+        
+        foreach($data as $key => $base_data)
         {
+            //primera fila para definir las cabeceras
             if($key==0){
-                foreach($value as $i => $row) {
-                    $insert_data = array_map('strtolower', $value);
+                foreach($base_data as $i => $row) {
+                    
+                    foreach($schemas as $id => $column){
+                        $row = str_replace(' ', '_', $row);
+                        $row = strtolower($row);
+                        if($row == $column){ 
+                            $insert_data[] = $row;
+                            //encuentra las posiciones de las columnas de los datos principales en el excel
+                            $values_position[] = $i;
+                        }
+                    }
                 }
-            }elseif( empty($value[0]) && empty($value[1]) && empty($value[2]) && empty($value[4]) && empty($value[10]) ){
-                $rejected_data[] = [
-                    "nombre" => ($key+2)."# FILA ".($key+2)." :Rechazado por falta de datos principales",
-                ];
-            }elseif(empty($value[1]) ){
-                $rejected_data[] = [
-                    "nombre" => ($key+2)."# FILA ".($key+2)." :Rechazado por falta de dato principal (nombre)",
-                ];
-            }elseif(empty($value[2])){
-                $rejected_data[] = [
-                    "nombre" => ($key+2)."# FILA ".($key+2)." :Rechazado por falta de dato principal (apellido paterno)",
-                ];
-            }elseif(empty($value[4])){
-                $rejected_data[] = [
-                    "nombre" => ($key+2)."# FILA ".($key+2)." :Rechazado por falta de dato principal (sexo)",
-                ];
-            }elseif(empty($value[10])){
-                $rejected_data[] = [
-                    "nombre" => ($key+2)."# FILA ".($key+2)." :Rechazado por falta de dato principal (estado civil)",
-                ];
-            }elseif(empty($value[0])){
-                $rejected_data[] = [
-                    "nombre" => ($key+2)."# FILA ".($key+2)." :Rechazado por falta de dato principal (empresa)",
-                ];
-            }else{
-                foreach($insert_data as $i => $insert) {
-                   $insert_data[$i] = str_replace(' ', '_', $insert_data[$i]);
-                   if($insert_data[$i] == "empresa"){
-                        $empresa = Empresa::where('nombre', $value[$i])->first();
-                        if( !empty($empresa)){ 
-                            $value[$i] = $empresa->id;
-                        }else{
-                            $empresa = Empresa::where('nombre', 'OTRA')->first();
-                            $value[$i] = $empresa->id;
-                        }
-                   }
-                   if($insert_data[$i] == "sexo"){
-                        $sexo = Sexo::where('nombre', $value[$i])->first();
-                        if( !empty($sexo)){ 
-                            $value[$i] = $sexo->id;
-                        }else{
-                            $sexo = Sexo::where('nombre', 'OTRO')->first();
-                            $value[$i] = $sexo->id;
-                        }
+
+                foreach($insert_data as $i => $column){
+                    if($column == "empresa") $empresa_position = $i;
+                    if($column == "nombres") $nombres_position = $i;
+                    if($column == "apellido_paterno_") $apellido_paterno_position = $i;
+                    if($column == "sexo") $sexo_position = $i;
+                    if($column == "estado_civil") $estado_civil_position = $i;
+                }
+
+                foreach($data as $key => $filter) {
+                    foreach($values_position as $i => $position) {
+                        $specific_value[] = ($filter[$position]);
                     }
-                    if($insert_data[$i] == "estado_civil" && !empty($value[$i]) ){
-                        $estado = EstadoCivil::where('nombre', $value[$i])->first();
-                        if( !empty($estado)){ 
-                            $value[$i] = $estado->id;
-                        }else{
-                            $estado = EstadoCivil::where('nombre', 'OTRO')->first();
-                            $value[$i] = $estado->id;
-                        }
+                    $values[] = $specific_value;
+                    $specific_value = [];
+                }
+                unset($values[0]);
+            
+            //Si las filas principales empresa && nombres && apellido_paterto && sexo $$ estado civil estan vacias
+            }elseif($key== 1){
+                foreach($values as $row => $value){
+                        if( empty($value[$empresa_position]) && empty($value[$nombres_position]) 
+                            && empty($value[$apellido_paterno_position]) && empty($value[$sexo_position]) 
+                            && empty($value[$estado_civil_position]) ){
+                        $rejected_data[] = [
+                            "nombre" => ($row+2)."# FILA ".($row+2)." :Rechazado por falta de datos principales",
+                        ];
+                       
+                    }elseif(empty($value[$nombres_position]) ){
+                        $rejected_data[] = [
+                            "nombre" => ($row+2)."# FILA ".($row+2)." :Rechazado por falta de dato principal (nombre)",
+                        ];
                         
+                    }elseif(empty($value[$apellido_paterno_position])){
+                        $rejected_data[] = [
+                            "nombre" => ($row+2)."# FILA ".($row+2)." :Rechazado por falta de dato principal (apellido paterno)",
+                        ];
+                        
+                    }elseif(empty($value[$sexo_position])){
+                        $rejected_data[] = [
+                            "nombre" => ($row+2)."# FILA ".($row+2)." :Rechazado por falta de dato principal (sexo)",
+                        ];
+                       
+                    }elseif(empty($value[$estado_civil_position])){
+                        $rejected_data[] = [
+                            "nombre" => ($row+2)."# FILA ".($row+2)." :Rechazado por falta de dato principal (estado civil)",
+                        ];
+                        
+                    }elseif(empty($value[$empresa_position])){
+                        $rejected_data[] = [
+                            "nombre" => ($row+2)."# FILA ".($row+2)." :Rechazado por falta de dato principal (empresa)",
+                        ];
+
+                    }else{
+                        foreach($insert_data as $i => $insert) {
+                        if($insert_data[$i] == "empresa"){
+                                $empresa = Empresa::where('nombre', $value[$i])->first();
+                                if( !empty($empresa)){ 
+                                    $value[$i] = $empresa->id;
+                                }else{
+                                    $empresa = Empresa::where('nombre', 'OTRA')->first();
+                                    $value[$i] = $empresa->id;
+                                }
+                        }
+                        if($insert_data[$i] == "sexo"){
+                                $sexo = Sexo::where('nombre', $value[$i])->first();
+                                if( !empty($sexo)){ 
+                                    $value[$i] = $sexo->id;
+                                }else{
+                                    $sexo = Sexo::where('nombre', 'OTRO')->first();
+                                    $value[$i] = $sexo->id;
+                                }
+                            }
+                            if($insert_data[$i] == "estado_civil"){
+                                $estado = EstadoCivil::where('nombre', $value[$i])->first();
+                                if( !empty($estado)){ 
+                                    $value[$i] = $estado->id;
+                                }else{
+                                    $estado = EstadoCivil::where('nombre', 'OTRO')->first();
+                                    $value[$i] = $estado->id;
+                                }
+                                
+                            }
+                        }
+
+                    
+                        foreach($insert_data as $i => $insert) {
+
+                            $empleado_data[$insert_data[$i]] = $value[$i];
+                        }
+                        $final_data[] = $empleado_data;
+                        $empleado_data = [];
                     }
-                };
-            $final_data[] = [
-                $insert_data[0] => $value[0],
-                $insert_data[1] => $value[1],
-                $insert_data[2] => $value[2],
-                $insert_data[3] => $value[3],
-                $insert_data[4] => $value[4],
-                $insert_data[5] => $value[5],
-                $insert_data[6] => $value[6],
-                $insert_data[7] => $value[7],
-                $insert_data[8] => $value[8],
-                $insert_data[9] => $value[9],
-                $insert_data[10] => $value[10],
-                $insert_data[11] => $value[11],
-                $insert_data[12] => $value[12],
-                $insert_data[13] => $value[13],
-                $insert_data[14] => $value[14],
-                $insert_data[15] => $value[15],
-                $insert_data[16] => $value[16],
-                $insert_data[17] => $value[17]
-            ];
+                }
             }
         }
-
-      if(!empty($final_data))
-      {
-         DB::table('empleados')->whereNotNull('id')->delete();
-         DB::table('rejected')->whereNotNull('id')->delete();
-         DB::table('empleados')->insert($final_data);
-         DB::table('rejected')->insert($rejected_data);
+        if(!empty($final_data))
+        {
+           DB::table('empleados')->whereNotNull('id')->delete();
+           DB::table('rejected')->whereNotNull('id')->delete();
+           DB::table('empleados')->insert($final_data);
+           DB::table('rejected')->insert($rejected_data);
+           return back()->with('success', 'Se han importado los datos correctamente y borrado los registros anteriores');
+        }
+       }
+       DB::table('empleados')->whereNotNull('id')->delete();
+       DB::table('rejected')->whereNotNull('id')->delete();
+       DB::table('rejected')->insert($rejected_data);
+       return back()->with('danger', 'Hubo un problema, no se importaron datos');
       }
-     }
-     return back()->with('success', 'Se han importado los datos correctamente y borrado los registros anteriores');
-    }
-}
-
-
+  }
+  
