@@ -30,10 +30,13 @@ class ImportExcelController extends Controller
       'select_file'  => 'required|mimes:xls,xlsx'
      ]);
 
+     $start_row = $request->get('start_row');
+    
+
      $path = $request->file('select_file')->getRealPath();
 
      //El skip(1) es para saltarse la primera fila para tomar como heading la segunda
-     $data = Excel::load($path)->noHeading()->skip(1)->get();
+     $data = Excel::load($path)->noHeading()->skip($start_row-1)->get();
 
      $schemas = DB::getSchemaBuilder()->getColumnListing('empleados');
      array_shift($schemas);
@@ -57,8 +60,7 @@ class ImportExcelController extends Controller
         $sexo_position = null;
         $estado_civil_position = null;
         
-        foreach($data as $key => $base_data)
-        {
+        foreach($data as $key => $base_data){
             //primera fila para definir las cabeceras
             if($key==0){
                 foreach($base_data as $i => $row) {
@@ -103,27 +105,27 @@ class ImportExcelController extends Controller
                        
                     }elseif(empty($value[$nombres_position]) ){
                         $rejected_data[] = [
-                            "nombre" => ($row+2)."# FILA ".($row+2)." :Rechazado por falta de dato principal (nombre)",
+                            "nombre" => ($row+2)."# FILA ".($row+$start_row)." :Rechazado por falta de dato principal (nombre)",
                         ];
                         
                     }elseif(empty($value[$apellido_paterno_position])){
                         $rejected_data[] = [
-                            "nombre" => ($row+2)."# FILA ".($row+2)." :Rechazado por falta de dato principal (apellido paterno)",
+                            "nombre" => ($row+2)."# FILA ".($row+$start_row)." :Rechazado por falta de dato principal (apellido paterno)",
                         ];
                         
                     }elseif(empty($value[$sexo_position])){
                         $rejected_data[] = [
-                            "nombre" => ($row+2)."# FILA ".($row+2)." :Rechazado por falta de dato principal (sexo)",
+                            "nombre" => ($row+2)."# FILA ".($row+$start_row)." :Rechazado por falta de dato principal (sexo)",
                         ];
                        
                     }elseif(empty($value[$estado_civil_position])){
                         $rejected_data[] = [
-                            "nombre" => ($row+2)."# FILA ".($row+2)." :Rechazado por falta de dato principal (estado civil)",
+                            "nombre" => ($row+2)."# FILA ".($row+$start_row)." :Rechazado por falta de dato principal (estado civil)",
                         ];
                         
                     }elseif(empty($value[$empresa_position])){
                         $rejected_data[] = [
-                            "nombre" => ($row+2)."# FILA ".($row+2)." :Rechazado por falta de dato principal (empresa)",
+                            "nombre" => ($row+2)."# FILA ".($row+$start_row)." :Rechazado por falta de dato principal (empresa)",
                         ];
 
                     }else{
@@ -167,6 +169,8 @@ class ImportExcelController extends Controller
                         $empleado_data = [];
                     }
                 }
+            }else{
+                break;
             }
         }
         if(!empty($final_data))

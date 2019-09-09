@@ -56,11 +56,14 @@
         <div class="form-group">
         <table class="table" >
         <tr>
-        <td width="40%" align="right"><label class="mt-1">Seleccionar Archivo <span class="text-warning">formatos .xls, xslx</span></td>
-        <td width="30">
+        <td width="15%" align="right"><label class="mt-1">Seleccionar Archivo <span class="text-warning">formatos .xls, xslx</span></td>
+        <td width="25">
             <input type="file" name="select_file" />
         </td>
-        <td width="30%" align="left">
+        <td width="50%" align="left" class="" style="border-left: 1px solid #ffffff !important"> 
+            <label class="text-white" >Fila con nombres de columnas</label>
+            <input type="number" name="start_row" min="1" max="100" maxlength="2" value="2" pattern="[0-9]" 
+            style="width:50px !important; margin-right:20px;">
             <input type="submit" name="Subir" class="btn btn-success" value="Importar" style="margin-top: -4px !important;">
         </td>
         </tr>
