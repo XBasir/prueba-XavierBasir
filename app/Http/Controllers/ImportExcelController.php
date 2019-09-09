@@ -99,33 +99,33 @@ class ImportExcelController extends Controller
                         if( empty($value[$empresa_position]) && empty($value[$nombres_position]) 
                             && empty($value[$apellido_paterno_position]) && empty($value[$sexo_position]) 
                             && empty($value[$estado_civil_position]) ){
-                        $rejected_data[] = [
+                       /* $rejected_data[] = [
                             "nombre" => ($row+$start_row)."# FILA ".($row+$start_row)." :Rechazado por falta de datos principales",
-                        ];
+                       ];*/
                        
                     }elseif(empty($value[$nombres_position]) ){
                         $rejected_data[] = [
-                            "nombre" => ($row+$start_row)."# FILA ".($row+$start_row)." :Rechazado por falta de dato principal 'nombre'",
+                            "nombre" => ($row+$start_row)." - FILA ".($row+$start_row)." :Rechazado por falta de dato principal 'nombre'",
                         ];
                         
                     }elseif(empty($value[$apellido_paterno_position])){
                         $rejected_data[] = [
-                            "nombre" => ($row+$start_row)."# FILA ".($row+$start_row)." :Rechazado por falta de dato principal 'apellido paterno'",
+                            "nombre" => ($row+$start_row)." - FILA ".($row+$start_row)." :Rechazado por falta de dato principal 'apellido paterno'",
                         ];
                         
                     }elseif(empty($value[$sexo_position])){
                         $rejected_data[] = [
-                            "nombre" => ($row+$start_row)."# FILA ".($row+$start_row)." :Rechazado por falta de dato principal 'sexo'",
+                            "nombre" => ($row+$start_row)." - FILA ".($row+$start_row)." :Rechazado por falta de dato principal 'sexo'",
                         ];
                        
                     }elseif(empty($value[$estado_civil_position])){
                         $rejected_data[] = [
-                            "nombre" => ($row+$start_row)."# FILA ".($row+$start_row)." :Rechazado por falta de dato principal 'estado civil'",
+                            "nombre" => ($row+$start_row)." - FILA ".($row+$start_row)." :Rechazado por falta de dato principal 'estado civil'",
                         ];
                         
                     }elseif(empty($value[$empresa_position])){
                         $rejected_data[] = [
-                            "nombre" => ($row+$start_row)."# FILA ".($row+$start_row)." :Rechazado por falta de dato principal 'empresa'",
+                            "nombre" => ($row+$start_row)." - FILA ".($row+$start_row)." :Rechazado por falta de dato principal 'empresa'",
                         ];
 
                     }else{
@@ -137,7 +137,7 @@ class ImportExcelController extends Controller
                                     $value[$i] = $empresa->id;
                                 }else{
                                     $rejected_data[] = [
-                                        "nombre" => ($row+$start_row)."# FILA ".($row+$start_row)." :Rechazado por incongruencia de datos. La empresa '".$value[$i]."' no está registrada" ,
+                                        "nombre" => ($row+$start_row)." # FILA ".($row+$start_row)." :Rechazado por incongruencia de datos. La empresa '".$value[$i]."' no está registrada" ,
                                     ];
                                     $rejected_by_relation = true;
                                     break;
@@ -149,7 +149,7 @@ class ImportExcelController extends Controller
                                     $value[$i] = $sexo->id;
                                 }else{
                                     $rejected_data[] = [
-                                        "nombre" => ($row+$start_row)."# FILA ".($row+$start_row)." :Rechazado por incongruencia de datos. El sexo '".$value[$i]."' no está registrado" ,
+                                        "nombre" => ($row+$start_row)." # FILA ".($row+$start_row)." :Rechazado por incongruencia de datos. El sexo '".$value[$i]."' no está registrado" ,
                                     ];
                                     $rejected_by_relation = true;
                                     break;
@@ -161,7 +161,7 @@ class ImportExcelController extends Controller
                                     $value[$i] = $estado->id;
                                 }else{
                                     $rejected_data[] = [
-                                        "nombre" => ($row+$start_row)."# FILA ".($row+$start_row)." :Rechazado por incongruencia de datos. El estado civil '".$value[$i]."' no está registrado" ,
+                                        "nombre" => ($row+$start_row)." # FILA ".($row+$start_row)." :Rechazado por incongruencia de datos. El estado civil '".$value[$i]."' no está registrado" ,
                                     ];
                                     $rejected_by_relation = true;
                                     break;
