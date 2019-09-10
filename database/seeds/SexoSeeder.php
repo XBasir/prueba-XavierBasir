@@ -13,8 +13,7 @@ class SexoSeeder extends Seeder
     {
         $nombres = [
             'MASCULINO',
-            'FEMENINO',
-            'OTRO'
+            'FEMENINO'
         ];
 
         foreach ($nombres as $nombre) {

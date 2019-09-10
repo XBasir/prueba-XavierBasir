@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html>
  <head>
-  <title>Importar datos de excel en Laravel</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <title>Importar datos de excel - Hecho por Xavier Basir</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
   <style>
     body{
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Open Sans', Arial, sans-serif;
     }
 
     header{
@@ -42,9 +40,7 @@
         <button type="button" class="close" data-dismiss="alert">×</button>
             <strong>{{ $message }}</strong>
     </div>
-    @endif
-
-    @if($message = Session::get('danger'))
+    @elseif($message = Session::get('danger'))
     <div class="alert alert-danger alert-block">
         <button type="button" class="close" data-dismiss="alert">×</button>
             <strong>{{ $message }}</strong>
@@ -156,7 +152,7 @@
         <tbody>
         @foreach($rejected_data as $row)
         <tr>
-                <td  class="bg-danger text-white">{{ $row->nombre}}</td>
+                <td  class="bg-danger text-white">{{ $row->descripcion }}</td>
         </tr>
         @endforeach
         </tbody>
@@ -188,7 +184,7 @@
                                     '</select> registros',
                         "loadingRecords": "Cargando...",
                         "processing": "Procesando...",
-                        "emptyTable": "No hay datos",
+                        "emptyTable": "No hay empleados importados",
                         "zeroRecords": "No hay coincidencias", 
                         "infoEmpty": "",
                         "infoFiltered": ""
@@ -211,7 +207,7 @@
                                     '</select> registros',
                         "loadingRecords": "Cargando...",
                         "processing": "Procesando...",
-                        "emptyTable": "No hay datos",
+                        "emptyTable": "No hay filas rechazadas",
                         "zeroRecords": "No hay coincidencias", 
                         "infoEmpty": "",
                         "infoFiltered": ""

@@ -16,8 +16,7 @@ class EstadoCivilSeeder extends Seeder
             'UNION LIBRE',
             'SOLTERO',
             'VIUDO',
-            'DIVORCIADO',
-            'OTRO'
+            'DIVORCIADO'
         ];
 
         foreach ($nombres as $nombre) {

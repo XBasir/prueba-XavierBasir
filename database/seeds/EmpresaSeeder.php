@@ -13,8 +13,7 @@ class EmpresaSeeder extends Seeder
     {
         $nombres = [
             'FPV',
-            'FOCAV',
-            'OTRA'
+            'FOCAV'
         ];
 
         foreach ($nombres as $nombre) {

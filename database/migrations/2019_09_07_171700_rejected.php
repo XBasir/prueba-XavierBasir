@@ -15,7 +15,7 @@ class Rejected extends Migration
     {
         Schema::create('rejected', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre', 120);
+            $table->string('descripcion', 120);
         });
     }
 
