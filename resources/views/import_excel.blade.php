@@ -80,9 +80,9 @@
    <table id="empleados" class="table table-striped table-bordered" style="width:100%; white-space:nowrap;" >
         <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Apellido 1</th>
-                <th>Apellido 2</th>
+                <th>Nombres</th>
+                <th>Apellido P.</th>
+                <th>Apellido M.</th>
                 <th>IFE</th>
                 <th>Clave elector</th>
                 <th>RFC</th>
@@ -90,7 +90,7 @@
                 <th>CURP</th>
                 <th>IMSS</th>
                 <th>Fecha contrato</th>
-                <th>Fecha Nacimiento</th>
+                <th>Fecha nacimiento</th>
                 <th>ID Empresa</th>
                 <th>ID Sexo</th>
                 <th>ID Estado Civil</th>
